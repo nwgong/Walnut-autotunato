@@ -22,9 +22,8 @@
 
 - A new field is added to the typedef, which is a CS pin. Please wire accordingly to your 12 Channel CS pins for the DACs. 
 
-i.e. DAC_LIST[11], is consider to be connected to Teensy Pin #5, and using DAC0 output. 
+> DAC_LIST[11], is consider to be connected to Teensy Pin #5, and using DAC0 output. 
 DAC_LIST[12], is consider to be connected to Teensy Pin #5, and using DAC1 output. 
-
 for the channels shared on the same PIN, the first (odd number) uses DAC0, the even number uses DAC1.
 
 ### Remarks: 
