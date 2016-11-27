@@ -7,7 +7,7 @@
 
 ### Pin Mapping: 
 
-  - DAC_LIST[1]  = (dac_chan_type) {1, 0, 1, 100, '9'};
+  - DAC_LIST[1]  = (dac_chan_type) {1, 0, 1, 100, \'9\'};
   - DAC_LIST[2]  = (dac_chan_type) {2, 0, 1, 100, '9'};
   - DAC_LIST[3]  = (dac_chan_type) {3, 0, 1, 100, 10};
   - DAC_LIST[4]  = (dac_chan_type) {4, 0, 1, 100, 10};
