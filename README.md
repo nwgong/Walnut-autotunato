@@ -1,4 +1,4 @@
-# walnut
+# walnut-autotunato
 
 This is the root directory for project Walnut which is aiming for create touch <-> sense platform.
 
