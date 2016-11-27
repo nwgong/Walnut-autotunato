@@ -7,8 +7,8 @@
 
 ### Pin Mapping: 
 
-  - DAC_LIST[1]  = (dac_chan_type) {1, 0, 1, 100, \'9\'};
-  - DAC_LIST[2]  = (dac_chan_type) {2, 0, 1, 100, '9'};
+  - DAC_LIST[1]  = (dac_chan_type) {1, 0, 1, 100, 9};
+  - DAC_LIST[2]  = (dac_chan_type) {2, 0, 1, 100, 9};
   - DAC_LIST[3]  = (dac_chan_type) {3, 0, 1, 100, 10};
   - DAC_LIST[4]  = (dac_chan_type) {4, 0, 1, 100, 10};
   - DAC_LIST[5]  = (dac_chan_type) {5, 0, 1, 100, 8};
@@ -17,8 +17,8 @@
   - DAC_LIST[8]  = (dac_chan_type) {8, 0, 1, 100, 7};
   - DAC_LIST[9]  = (dac_chan_type) {9, 0, 1, 100, 6};
   - DAC_LIST[10] = (dac_chan_type) {10, 0, 1, 100, 6};
-  - DAC_LIST[11] = (dac_chan_type) {11, 0, 1, 100, '5'};
-  - DAC_LIST[12] = (dac_chan_type) {12, 0, 1, 100, '5'};
+  - DAC_LIST[11] = (dac_chan_type) {11, 0, 1, 100, 5};
+  - DAC_LIST[12] = (dac_chan_type) {12, 0, 1, 100, 5};
 
 - A new field is added to the typedef, which is a CS pin. Please wire accordingly to your 12 Channel CS pins for the DACs. 
 
