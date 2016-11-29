@@ -1,0 +1,72 @@
+Put this code in your init section, after you've set up SPI but before
+you run commands.
+
+If you are using parallel terminations:
+
+*((unsigned int *) 0x4004b018) = 0x244;
+*((unsigned int *) 0x4004b014) = 0x244;
+
+If not using parallel terminations: (this is how your board is currently
+configured)
+*((unsigned int *) 0x4004b018) = 0x204;
+*((unsigned int *) 0x4004b014) = 0x204;
+
+These lines of code set clock and data out to be low slew rate, and
+either high drive strength (for terminated case) or low drive strength
+(for unterminated case).
+
+These won't solve the big glitch, but these will quiet out your lines a bit.
+
+Now, for the SPI configuration, do the following:
+
+*((unsigned int *)0x4002c000 |= 1; // disable SPI to allow reconfig
+
+*((unsigned int *)0x4002c00c |= 0x0C0030; // set pdt = 3, dt = 3
+
+*((unsigned int *)0x4002c00c |= 0x300F00; // set PASC, ASC to max
+
+*((unsigned int *)0x4002c00c |= 0xc03000; // set PSSCK = 3, cssck = 3
+
+*((unsigned int *)0x4002c000 &= 0xFFFFFFFE; // resume SPI
+
+There's a couple of parameters to play with.
+
+PDT/DT determines the delay time between transfers. Set to 112 sys clock
+cycles, so pretty long -- I think it's about 3.1us if I'm eyeballing the
+clocks correctly. I think this is the line you want the most, and it's
+currently set to 0.
+
+PASC/ASC determines the delay time between the last edge of SCK and the
+negation of CS. Setting it to max values I think gets you to 45 sysclock
+cycles, and assuming sysclock is 36 MHz that's a 1.25us delay -- should
+be pretty long. You can trim it back, but currently I think it's set to
+zero, so the bus turns around right away.
+
+PSSCK/CSSCK sets the delay between assertion of PCS and the first edge
+of SCK. This is the delay on the "front side". You probably don't have
+to fiddle with that but I put in a value of 112 sys clock cycles just to
+be sure. You can try commenting that out and seeing if that helps.
+
+I suspect these may eliminate the glitch you see on the SPI line -- or
+more appropriately, they will "extend" the glitch to a long period of
+time so the DAC has time to process it and not get screwed up.
+
+I'm also curious to see how the CS line is being driven -- is it being
+left asserted through all of this, or is it also glitching at the same
+time the data line is glitching?
+
+Anyways, I think that does it -- you have three delays to play with,
+delay from CS->transfer (PSSCK/CSSCK), transfer->CS (PASC/ASC), and
+transfer->transfer (PDT/DT). If the delays are too long that I specify,
+you can reduce them by reducing the numbers, e.g., maybe PDT/DT could be
+
+*((unsigned int *)0x4002c00c |= 0x040030; // set pdt = 1, dt = 3
+
+that would reduce the delay by a factor of 4. Anyways, it's all in the
+reference manual:
+
+http://www.nxp.com/assets/documents/data/en/reference-manuals/K20P64M72SF1RM.pdf
+
+page 1129 contains the CTAR register descriptions (which is what
+0x4002c00c is). It's the "clock and transfer attributes register" which
+is where you tweak to fix problems in the waveform like this....
