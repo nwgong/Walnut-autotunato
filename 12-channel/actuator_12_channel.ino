@@ -265,7 +265,24 @@ void setup() {
     pinMode(DAC_LIST[i].csPin, OUTPUT); //set all CS pins as OUTPUT.
     digitalWrite(DAC_LIST[i].csPin,HIGH); //set them high
   }
+  
+  *((unsigned int *) 0x4004b018) = 0x204;
+  *((unsigned int *) 0x4004b014) = 0x204;
+  
 
+  *((unsigned int *) 0x4002c000) |= 1; // disable SPI to allow reconfig
+
+  //*((unsigned int *)0x4002c00c) |= 0x0C0030; // set pdt = 3, dt = 3
+  *((unsigned int *)0x4002c00c) |= 0x040030; // set pdt = 1, dt = 3
+
+  //*((unsigned int *)0x4002c00c) |= 0x300F00; // set PASC, ASC to max
+  *((unsigned int *)0x4002c00c) |= 0x100100; // set PASC=1, ASC =1
+
+  //*((unsigned int *)0x4002c00c) |= 0xc03000; // set PSSCK = 3, cssck = 3
+  *((unsigned int *)0x4002c00c) |= 0x401000; // set PSSCK = 1, cssck = 1
+
+  *((unsigned int *)0x4002c000) &= 0xFFFFFFFE; // resume SPI
+  
   SERIAL_PORT.begin( 9600 );
 
   analogWriteResolution( 12 );
