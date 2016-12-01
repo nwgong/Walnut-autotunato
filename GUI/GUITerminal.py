@@ -54,6 +54,7 @@ ID_TERM = wx.NewId()
 ID_EXIT = wx.NewId()
 ID_RTS = wx.NewId()
 ID_DTR = wx.NewId()
+ID_HV= wx.NewId()
 
 NEWLINE_CR = 0
 NEWLINE_LF = 1
@@ -167,6 +168,7 @@ class TerminalFrame(wx.Frame):
         wxglade_tmp_menu.Append(ID_SETTINGS, "&Port Settings...", "", wx.ITEM_NORMAL)
         self.frame_terminal_menubar.Append(wxglade_tmp_menu, "Serial Port")
         wxglade_tmp_menu = wx.Menu()
+        wxglade_tmp_menu.Append(ID_HV, "HV Enable", "", wx.ITEM_CHECK)
         wxglade_tmp_menu.Append(ID_CHANNEL_1, "Channel #1", "", wx.ITEM_NORMAL)
         wxglade_tmp_menu.Append(ID_CHANNEL_2, "Channel #2", "", wx.ITEM_NORMAL)
         wxglade_tmp_menu.Append(ID_CHANNEL_3, "Channel #3", "", wx.ITEM_NORMAL)
@@ -194,6 +196,7 @@ class TerminalFrame(wx.Frame):
         self.Bind(wx.EVT_MENU, self.OnRTS, id=ID_RTS)
         self.Bind(wx.EVT_MENU, self.OnDTR, id=ID_DTR)
         self.Bind(wx.EVT_MENU, self.OnPortSettings, id=ID_SETTINGS)
+        self.Bind(wx.EVT_MENU, self.OnHV, id=ID_HV)
         self.Bind(wx.EVT_MENU, self.OnChannel_1, id=ID_CHANNEL_1)
         self.Bind(wx.EVT_MENU, self.OnChannel_2, id=ID_CHANNEL_2)
         self.Bind(wx.EVT_MENU, self.OnChannel_3, id=ID_CHANNEL_3)
@@ -232,7 +235,7 @@ class TerminalFrame(wx.Frame):
 
     def __set_properties(self):
         # begin wxGlade: TerminalFrame.__set_properties
-        self.SetTitle("Serial Terminal")
+        self.SetTitle("Walnut Actuator GUI")
         self.SetSize((546, 383))
         self.text_ctrl_output.SetFont(wx.Font(9, wx.MODERN, wx.NORMAL, wx.NORMAL, 0, ""))
         # end wxGlade
@@ -451,6 +454,14 @@ class TerminalFrame(wx.Frame):
 
     def OnDTR(self, event):  # wxGlade: TerminalFrame.<event_handler>
         self.serial.dtr = event.Checked()
+
+    def OnHV(self, event):  # wxGlade: TerminalFrame.<event_handler>
+        if (event.IsChecked()):
+	    self.serial.write("set_hv 1\r")
+	    self.text_ctrl_output.AppendText("set_hv 1\r")
+	else: 
+            self.serial.write("set_hv 0\r")
+	    self.text_ctrl_output.AppendText("set_hv 0\r")
 
 # end of class TerminalFrame
 
