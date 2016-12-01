@@ -38,6 +38,18 @@ class SerialRxEvent(wx.PyCommandEvent):
 ID_CLEAR = wx.NewId()
 ID_SAVEAS = wx.NewId()
 ID_SETTINGS = wx.NewId()
+ID_CHANNEL_1= wx.NewId()
+ID_CHANNEL_2= wx.NewId()
+ID_CHANNEL_3= wx.NewId()
+ID_CHANNEL_4= wx.NewId()
+ID_CHANNEL_5= wx.NewId()
+ID_CHANNEL_6= wx.NewId()
+ID_CHANNEL_7= wx.NewId()
+ID_CHANNEL_8= wx.NewId()
+ID_CHANNEL_9= wx.NewId()
+ID_CHANNEL_10= wx.NewId()
+ID_CHANNEL_11= wx.NewId()
+ID_CHANNEL_12= wx.NewId()
 ID_TERM = wx.NewId()
 ID_EXIT = wx.NewId()
 ID_RTS = wx.NewId()
@@ -154,6 +166,20 @@ class TerminalFrame(wx.Frame):
         wxglade_tmp_menu.Append(ID_DTR, "&DTR", "", wx.ITEM_CHECK)
         wxglade_tmp_menu.Append(ID_SETTINGS, "&Port Settings...", "", wx.ITEM_NORMAL)
         self.frame_terminal_menubar.Append(wxglade_tmp_menu, "Serial Port")
+        wxglade_tmp_menu = wx.Menu()
+        wxglade_tmp_menu.Append(ID_CHANNEL_1, "Channel #1", "", wx.ITEM_NORMAL)
+        wxglade_tmp_menu.Append(ID_CHANNEL_2, "Channel #2", "", wx.ITEM_NORMAL)
+        wxglade_tmp_menu.Append(ID_CHANNEL_3, "Channel #3", "", wx.ITEM_NORMAL)
+        wxglade_tmp_menu.Append(ID_CHANNEL_4, "Channel #4", "", wx.ITEM_NORMAL)
+        wxglade_tmp_menu.Append(ID_CHANNEL_5, "Channel #5", "", wx.ITEM_NORMAL)
+        wxglade_tmp_menu.Append(ID_CHANNEL_6, "Channel #6", "", wx.ITEM_NORMAL)
+        wxglade_tmp_menu.Append(ID_CHANNEL_7, "Channel #7", "", wx.ITEM_NORMAL)
+        wxglade_tmp_menu.Append(ID_CHANNEL_8, "Channel #8", "", wx.ITEM_NORMAL)
+        wxglade_tmp_menu.Append(ID_CHANNEL_9, "Channel #9", "", wx.ITEM_NORMAL)
+        wxglade_tmp_menu.Append(ID_CHANNEL_10, "Channel #10", "", wx.ITEM_NORMAL)
+        wxglade_tmp_menu.Append(ID_CHANNEL_11, "Channel #11", "", wx.ITEM_NORMAL)
+        wxglade_tmp_menu.Append(ID_CHANNEL_12, "Channel #12", "", wx.ITEM_NORMAL)
+        self.frame_terminal_menubar.Append(wxglade_tmp_menu, "Actuators")
         self.SetMenuBar(self.frame_terminal_menubar)
         # Menu Bar end
         self.text_ctrl_output = wx.TextCtrl(self, -1, "", style=wx.TE_MULTILINE | wx.TE_READONLY)
@@ -168,6 +194,18 @@ class TerminalFrame(wx.Frame):
         self.Bind(wx.EVT_MENU, self.OnRTS, id=ID_RTS)
         self.Bind(wx.EVT_MENU, self.OnDTR, id=ID_DTR)
         self.Bind(wx.EVT_MENU, self.OnPortSettings, id=ID_SETTINGS)
+        self.Bind(wx.EVT_MENU, self.OnChannel_1, id=ID_CHANNEL_1)
+        self.Bind(wx.EVT_MENU, self.OnChannel_2, id=ID_CHANNEL_2)
+        self.Bind(wx.EVT_MENU, self.OnChannel_3, id=ID_CHANNEL_3)
+        self.Bind(wx.EVT_MENU, self.OnChannel_4, id=ID_CHANNEL_4)
+        self.Bind(wx.EVT_MENU, self.OnChannel_5, id=ID_CHANNEL_5)
+        self.Bind(wx.EVT_MENU, self.OnChannel_6, id=ID_CHANNEL_6)
+        self.Bind(wx.EVT_MENU, self.OnChannel_7, id=ID_CHANNEL_7)
+        self.Bind(wx.EVT_MENU, self.OnChannel_8, id=ID_CHANNEL_8)
+        self.Bind(wx.EVT_MENU, self.OnChannel_9, id=ID_CHANNEL_9)
+        self.Bind(wx.EVT_MENU, self.OnChannel_10, id=ID_CHANNEL_10)
+        self.Bind(wx.EVT_MENU, self.OnChannel_11, id=ID_CHANNEL_11)
+        self.Bind(wx.EVT_MENU, self.OnChannel_12, id=ID_CHANNEL_12)
         # end wxGlade
         self.__attach_events()          # register events
         self.OnPortSettings(None)       # call setup dialog on startup, opens port
@@ -213,6 +251,18 @@ class TerminalFrame(wx.Frame):
         self.Bind(wx.EVT_MENU, self.OnSaveAs, id=ID_SAVEAS)
         self.Bind(wx.EVT_MENU, self.OnExit, id=ID_EXIT)
         self.Bind(wx.EVT_MENU, self.OnPortSettings, id=ID_SETTINGS)
+        self.Bind(wx.EVT_MENU, self.OnChannel_1, id=ID_CHANNEL_1)
+        self.Bind(wx.EVT_MENU, self.OnChannel_2, id=ID_CHANNEL_2)
+        self.Bind(wx.EVT_MENU, self.OnChannel_3, id=ID_CHANNEL_3)
+        self.Bind(wx.EVT_MENU, self.OnChannel_4, id=ID_CHANNEL_4)
+        self.Bind(wx.EVT_MENU, self.OnChannel_5, id=ID_CHANNEL_5)
+        self.Bind(wx.EVT_MENU, self.OnChannel_6, id=ID_CHANNEL_6)
+        self.Bind(wx.EVT_MENU, self.OnChannel_7, id=ID_CHANNEL_7)
+        self.Bind(wx.EVT_MENU, self.OnChannel_8, id=ID_CHANNEL_8)
+        self.Bind(wx.EVT_MENU, self.OnChannel_9, id=ID_CHANNEL_9)
+        self.Bind(wx.EVT_MENU, self.OnChannel_10, id=ID_CHANNEL_10)
+        self.Bind(wx.EVT_MENU, self.OnChannel_11, id=ID_CHANNEL_11)
+        self.Bind(wx.EVT_MENU, self.OnChannel_12, id=ID_CHANNEL_12)
         self.Bind(wx.EVT_MENU, self.OnTermSettings, id=ID_TERM)
         self.text_ctrl_output.Bind(wx.EVT_CHAR, self.OnKey)
         self.Bind(EVT_SERIALRX, self.OnSerialRead)
@@ -246,6 +296,54 @@ class TerminalFrame(wx.Frame):
     def OnClear(self, event):  # wxGlade: TerminalFrame.<event_handler>
         """Clear contents of output window."""
         self.text_ctrl_output.Clear()
+
+    def OnChannel_1(self, event): # wxGlade: TerminalFrame.<event_handler>
+	self.serial.write("set_dac 1 100 1\r")
+	self.text_ctrl_output.AppendText("set_dac 1 100 1\r")
+
+    def OnChannel_2(self, event): # wxGlade: TerminalFrame.<event_handler>
+	self.serial.write("set_dac 2 100 1\r")
+	self.text_ctrl_output.AppendText("set_dac 2 100 1\r")
+
+    def OnChannel_3(self, event): # wxGlade: TerminalFrame.<event_handler>
+	self.serial.write("set_dac 3 100 1\r")
+	self.text_ctrl_output.AppendText("set_dac 3 100 1\r")
+
+    def OnChannel_4(self, event): # wxGlade: TerminalFrame.<event_handler>
+	self.serial.write("set_dac 4 100 1\r")
+	self.text_ctrl_output.AppendText("set_dac 4 100 1\r")
+
+    def OnChannel_5(self, event): # wxGlade: TerminalFrame.<event_handler>
+	self.serial.write("set_dac 5 100 1\r")
+	self.text_ctrl_output.AppendText("set_dac 5 100 1\r")
+
+    def OnChannel_6(self, event): # wxGlade: TerminalFrame.<event_handler>
+	self.serial.write("set_dac 6 100 1\r")
+	self.text_ctrl_output.AppendText("set_dac 6 100 1\r")
+
+    def OnChannel_7(self, event): # wxGlade: TerminalFrame.<event_handler>
+	self.serial.write("set_dac 7 100 1\r")
+	self.text_ctrl_output.AppendText("set_dac 7 100 1\r")
+
+    def OnChannel_8(self, event): # wxGlade: TerminalFrame.<event_handler>
+	self.serial.write("set_dac 8 100 1\r")
+	self.text_ctrl_output.AppendText("set_dac 8 100 1\r")
+
+    def OnChannel_9(self, event): # wxGlade: TerminalFrame.<event_handler>
+	self.serial.write("set_dac 9 100 1\r")
+	self.text_ctrl_output.AppendText("set_dac 9 100 1\r")
+
+    def OnChannel_10(self, event): # wxGlade: TerminalFrame.<event_handler>
+	self.serial.write("set_dac 10 100 1\r")
+	self.text_ctrl_output.AppendText("set_dac 10 100 1\r")
+
+    def OnChannel_11(self, event): # wxGlade: TerminalFrame.<event_handler>
+	self.serial.write("set_dac 11 100 1\r")
+	self.text_ctrl_output.AppendText("set_dac 11 100 1\r")
+
+    def OnChannel_12(self, event): # wxGlade: TerminalFrame.<event_handler>
+	self.serial.write("set_dac 12 100 1\r")
+	self.text_ctrl_output.AppendText("set_dac 12 100 1\r")
 
     def OnPortSettings(self, event):  # wxGlade: TerminalFrame.<event_handler>
         """
