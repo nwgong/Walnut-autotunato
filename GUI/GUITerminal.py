@@ -235,7 +235,7 @@ class TerminalFrame(wx.Frame):
 
     def __set_properties(self):
         # begin wxGlade: TerminalFrame.__set_properties
-        self.SetTitle("Walnut Actuator GUI")
+        self.SetTitle("Walnut Actuator DEMO GUI")
         self.SetSize((546, 383))
         self.text_ctrl_output.SetFont(wx.Font(9, wx.MODERN, wx.NORMAL, wx.NORMAL, 0, ""))
         # end wxGlade
@@ -375,7 +375,7 @@ class TerminalFrame(wx.Frame):
                         dlg.ShowModal()
                 else:
                     self.StartThread()
-                    self.SetTitle("Serial Terminal on {} [{},{},{},{}{}{}]".format(
+                    self.SetTitle("Walnut Actuator DEMO GUI on {} [{},{},{},{}{}{}]".format(
                         self.serial.portstr,
                         self.serial.baudrate,
                         self.serial.bytesize,
